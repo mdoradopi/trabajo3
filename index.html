@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Vision Pro - Interacción Persona-Ordenador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background-color: #fff5f8;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(139, 69, 94, 0.95);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(219, 39, 119, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding: 15px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            color: #fce7f3;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 15px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            color: white;
+            padding: 120px 20px 80px;
+            text-align: center;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .hero-image {
+            margin-top: 40px;
+        }
+
+        .hero-image img {
+            max-width: 700px;
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 20px;
+            background-color: white;
+        }
+
+        .section-alt {
+            background-color: #fef2f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            text-align: center;
+            font-weight: 700;
+            color: #be185d;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #831843;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #db2777;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(219, 39, 119, 0.1);
+            border: 2px solid #fce7f3;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(219, 39, 119, 0.2);
+            border-color: #fbcfe8;
+        }
+
+        /* Features List */
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin-top: 50px;
+        }
+
+        .feature {
+            background: white;
+            padding: 30px;
+            border-left: 4px solid #ec4899;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(219, 39, 119, 0.08);
+        }
+
+        /* Timeline */
+        .evolution-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            font-size: 1.15rem;
+            color: #4a5568;
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(219, 39, 119, 0.1);
+            border-left: 4px solid #ec4899;
+        }
+
+        .timeline-item:last-child {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            color: white;
+        }
+
+        .timeline-item:last-child h3,
+        .timeline-item:last-child p {
+            color: white;
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .imagen {
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(219, 39, 119, 0.15);
+            border: 3px solid #fce7f3;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .imagen:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(219, 39, 119, 0.25);
+        }
+
+        .imagen img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .imagen:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Resources */
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .resource-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(219, 39, 119, 0.1);
+            border: 2px solid #fce7f3;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(219, 39, 119, 0.2);
+        }
+
+        .resource-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #db2777;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .resource-link:hover {
+            color: #be185d;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #831843 0%, #be185d 100%);
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #fce7f3;
+            margin: 10px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.85rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                flex-direction: column !important;
+            }
+
+            .timeline-content {
+                margin: 20px 0 20px 60px;
+            }
+
+            .timeline-content::before {
+                left: -50px !important;
+            }
+
+            .features-list,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">Vision Pro</div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#caracteristicas">Características</a></li>
+                <li><a href="#evolucion">Evolución</a></li>
+                <li><a href="#galeria">Galería</a></li>
+                <li><a href="#recursos">Recursos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Apple Vision Pro</h1>
+            <div class="hero-image">
+                <img src="https://www.apple.com/v/apple-vision-pro/j/images/overview/design/drawer/dual_knit_band__cuhpalc1t9ea_large_2x.jpg" alt="Apple Vision Pro">
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios" class="section">
+        <div class="container">
+            <h2>¿Por qué Vision Pro representa un avance en IPO?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Interacción Multimodal Avanzada</h3>
+                    <p>Vision Pro utiliza múltiples vías de entrada simultáneamente: órdenes de voz, detección de gestos manuales en el espacio 3D y seguimiento ocular de gran precisión. Esta combinación permite una interacción más intuitiva y natural que los métodos tradicionales, lo que incrementa la eficiencia y facilita el aprendizaje.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Eliminación de Dispositivos Intermediarios</h3>
+                    <p>A diferencia de sistemas VR/AR previos que necesitan controladores físicos, Vision Pro emplea las manos del usuario como interfaz directa. El sistema capta gestos sutiles como toques y movimientos de dedos en el espacio, eliminando la necesidad de familiarizarse con controladores complicados o sostener dispositivos extra.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Seguimiento Ocular como Método de Navegación</h3>
+                    <p>El dispositivo incorpora cámaras infrarrojas que rastrean hacia dónde mira el usuario con precisión milimétrica. Esto permite seleccionar elementos de interfaz simplemente mirándolos, representando un cambio paradigmático respecto al uso tradicional de punteros controlados manualmente.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Computación Espacial Integrada</h3>
+                    <p>Vision Pro no solo presenta contenido virtual, sino que también capta el entorno físico que lo rodea. Es posible fijar aplicaciones a paredes reales, identificar superficies para situar elementos virtuales, y ajustar la interfaz al entorno del usuario, integrando el mundo digital y físico de forma consistente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="section section-alt">
+        <div class="container">
+            <h2>Características Principales</h2>
+            <div class="features-list">
+                <div class="feature">
+                    <h4>Pantallas Micro-OLED</h4>
+                    <p>Dos pantallas con más de 23 millones de píxeles en conjunto, proporcionando una mayor resolución que un televisor 4K en cada ojo. Esto permite un texto claro con detalles precisos que son fundamentales para interfaces complejas.</p>
+                </div>
+                <div class="feature">
+                    <h4>Sistema de Cámaras y Sensores</h4>
+                    <p>12 cámaras, 5 sensores y 6 micrófonos trabajan conjuntamente para mapear el entorno, rastrear movimientos de manos, capturar expresiones faciales y procesar comandos de voz con mucha precisión.</p>
+                </div>
+                <div class="feature">
+                    <h4>Audio Espacial Personalizado</h4>
+                    <p>Altavoces integrados que mapean la geometría de la cabeza del usuario para crear experiencias de audio tridimensional, haciendo que el sonido parezca provenir de ubicaciones distintas.</p>
+                </div>
+                <div class="feature">
+                    <h4>EyeSight - Visibilidad Externa</h4>
+                    <p>Una pantalla externa OLED exhibe los ojos del usuario a quienes están cerca, preservando la conexión social mientras se utiliza. Se reduce cuando el usuario está sumergido en contenido virtual.</p>
+                </div>
+                <div class="feature">
+                    <h4>Control de Inmersión con Digital Crown</h4>
+                    <p>Un control físico heredado del Apple Watch permite al usuario ajustar poco a poco cuánto del mundo real percibe, desde completamente transparente hasta completamente inmerso en entornos virtuales.</p>
+                </div>
+                <div class="feature">
+                    <h4>visionOS - Sistema Operativo Espacial</h4>
+                    <p>Primer sistema operativo creado específicamente para la computación espacial, que incluye interfaces en 3D, ventanas flotantes que se pueden colocar libremente y es compatible con aplicaciones de iOS y iPadOS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="evolucion" class="section">
+        <div class="container">
+            <h2>Evolución de los Dispositivos de Interacción</h2>
+            <p class="evolution-intro">Vision Pro es el resultado de décadas de trabajo en interfaces de usuario, que han integrado y superado varias generaciones de dispositivos:</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>1960s-1980s - Ratón y Teclado</h3>
+                    <p>Los dispositivos tradicionales de entrada requerían aprender combinaciones de teclas y movimientos indirectos del cursor.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>2007-2010s - Pantallas Táctiles</h3>
+                    <p>Los smartphones introdujeron la interacción táctil directa, pero limitada a superficies 2D.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>2012-2020 - Primeras Gafas VR</h3>
+                    <p>Oculus y HTC Vive requerían controladores externos con botones que el usuario debía aprender a usar.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>2016-2022 - Gafas AR</h3>
+                    <p>HoloLens y Magic Leap introdujeron realidad aumentada, pero con campos de visión limitados.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>2020-2023 - Meta Quest</h3>
+                    <p>Mejoraron el seguimiento de manos pero con precisión limitada y sin seguimiento ocular avanzado.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3>2024 - Apple Vision Pro</h3>
+                    <p>Elimina los controladores físicos y usa las manos, los ojos y la voz como interfaz natural. Combina VR, AR y seguimiento ocular preciso.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeria" class="section section-alt">
+        <div class="container">
+            <h2>Galería</h2>
+            <div class="gallery">
+                <div class="imagen">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBuG8oduA4GSA8CxZ4JeKBWegLFN8ThHr67g&s" alt="Vision Pro vista posterior">
+                </div>
+                <div class="imagen">
+                    <img src="https://www.apple.com/v/apple-vision-pro/j/images/overview/design/drawer/battery__cjkato9jqdjm_large_2x.jpg" alt="Visión Pro con batería">
+                </div>
+                <div class="imagen">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrSWceXnoRjCTk-5PdBNV_mGT1nQGGwPKuNA&s" alt="Visión Pro perspectiva lateral">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recursos" class="section">
+        <div class="container">
+            <h2>Más Información y Recursos</h2>
+            <div class="resources">
+                <div class="resource-card">
+                    <h3>Sitio Oficial de Apple</h3>
+                    <p>Información completa del producto, especificaciones técnicas y demostraciones.</p>
+                    <a href="https://www.apple.com/apple-vision-pro/" target="_blank" class="resource-link">Visitar →</a>
+                </div>
+                <div class="resource-card">
+                    <h3>Documentación para Desarrolladores</h3>
+                    <p>Guías y recursos para crear aplicaciones espaciales en visionOS.</p>
+                    <a href="https://developer.apple.com/visionos/" target="_blank" class="resource-link">Visitar →</a>
+                </div>
+                <div class="resource-card">
+                    <h3>Sala de Prensa Apple</h3>
+                    <p>Comunicados oficiales y artículos sobre Vision Pro y computación espacial.</p>
+                    <a href="https://www.apple.com/newsroom/2024/01/apple-vision-pro-available-in-the-us-on-february-2/" target="_blank" class="resource-link">Visitar →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Trabajo de Interacción Persona-Ordenador</p>
+            <p>María Dorado Pizarro - 2025-2026</p>
+        </div>
+    </footer>
+</body>
+</html>
